@@ -1,0 +1,114 @@
+<div class="p-6">
+  <h2 class="text-xl font-bold text-gray-900 mb-6">Demander un Congé</h2>
+
+  <form (ngSubmit)="onSubmit()" class="space-y-4">
+
+    <!-- Sélection de l'employé (seulement pour RH/Admin) -->
+     @if (isRH) {
+       <mat-form-field class="w-full">
+      <mat-label>Employé</mat-label>
+      <mat-select [(value)]="conge.employeId" required>
+        @for (employe of employes; track employe.id) {
+          <mat-option [value]="employe.id">
+            {{employe.prenom}} {{employe.nom}} - {{employe.matricule}}
+          </mat-option>
+        } 
+      </mat-select>
+    </mat-form-field> 
+     }  @else {
+      <!-- Affichage de l'employé connecté pour les non-RH -->
+      <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+        <p class="text-sm text-gray-600">Employé</p>
+        <p class="font-semibold text-gray-900">
+          {{getEmployeName(conge.employeId!)}}
+        </p>
+      </div>
+    }
+
+     <!-- Type de congé -->
+    <mat-form-field class="w-full">
+      <mat-label>Type de congé</mat-label>
+      <mat-select [(value)]="conge.type" required>
+        @for (type of typesConge; track type.value) {
+          <mat-option [value]="type.value">{{type.label}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Période -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Date de début</mat-label>
+        <input matInput [matDatepicker]="pickerDebut" 
+               [(ngModel)]="conge.dateDebut" 
+               name="dateDebut" 
+               (dateChange)="calculateDuree()"
+               required>
+        <mat-datepicker-toggle matSuffix [for]="pickerDebut"></mat-datepicker-toggle>
+        <mat-datepicker #pickerDebut></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Date de fin</mat-label>
+        <input matInput [matDatepicker]="pickerFin" 
+               [(ngModel)]="conge.dateFin" 
+               name="dateFin"
+               (dateChange)="calculateDuree()"
+               required>
+        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFin></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Durée calculée -->
+    @if (conge.duree && conge.duree > 0) {
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+      <p class="text-sm text-blue-800">
+        <strong>Durée calculée:</strong> {{conge.duree}} jour(s)
+      </p>
+    </div>
+    } @else if (conge.dateDebut && conge.dateFin) {
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <p class="text-sm text-red-800">
+          <strong>Erreur:</strong> La date de fin doit être après la date de début
+        </p>
+      </div>
+    }
+
+    <!-- Motif -->
+    <mat-form-field class="w-full">
+      <mat-label>Motif</mat-label>
+      <textarea matInput 
+      [(ngModel)]="conge.motif" 
+      name="motif" 
+      placeholder="Veuillez décrire le motif de votre congé..."
+      rows="3" required></textarea>
+    </mat-form-field>
+
+    <!-- Actions -->
+    <div class="flex justify-end space-x-3 pt-4">
+      <button 
+        type="button"
+        (click)="onCancel()"
+        [disabled]="loading"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50">
+        Annuler
+      </button>
+      <button 
+        type="submit"
+        [disabled]="loading || !conge.employeId || !conge.type || !conge.dateDebut || !conge.dateFin || !conge.motif || !conge.motif || !conge.duree || conge.duree <= 0"
+        class="bg-blue-200 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors disabled:opacity-50 flex items-center space-x-2">
+         @if (loading) {
+          <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>Traitement...</span>
+        } @else {
+          <span>Demander le congé</span>
+        }
+      </button>
+    </div>
+
+  </form>
+</div>  

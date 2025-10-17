@@ -1,0 +1,179 @@
+<div class="p-6 space-y-6">
+     <!-- En-tête -->
+    <div class="flex justify-between items-center">
+        <div>
+           <h1 class="text-2xl font-bold text-gray-900">Gestion des Affectations</h1>
+           <p class="text-gray-600">Proposer et gérer les affectations du personnel</p>
+        </div>
+        <button 
+           (click)="ouvrirPropositionAffectation()"
+           class="bg-mali-green text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+           <mat-icon>swap_horiz</mat-icon>
+           <span>Proposer Affectation</span>
+        </button>
+    </div>
+
+    <!-- Statistiques rapides -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Affectations proposées</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ proposerAffectations }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-green-100 text-green-600">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Affectations validées</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ validerAffectation }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-red-100 text-red-600">
+          <mat-icon>cancel</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Affectations annulées</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ annulerAffectation }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des affectations -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="p-6 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Liste des Affectations</h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="affectations" class="w-full">
+        
+        <!-- Employé Column -->
+        <ng-container matColumnDef="employe">
+          <th mat-header-cell *matHeaderCellDef>Employé</th>
+          <td mat-cell *matCellDef="let affectation" class="py-4">
+            <div>
+              <p class="font-semibold text-gray-900">{{affectation.employePrenom}} {{affectation.employeNom}}</p>
+              <p class="text-sm text-gray-500">Matricule: {{affectation.employeId}}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Ancien Poste Column -->
+        <ng-container matColumnDef="ancienPoste">
+          <th mat-header-cell *matHeaderCellDef>Ancien Poste</th>
+          <td mat-cell *matCellDef="let affectation">
+            <div>
+              <p class="text-gray-900">{{affectation.ancienPoste}}</p>
+              <p class="text-sm text-gray-500">{{affectation.ancienneDirection}}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Nouveau Poste Column -->
+        <ng-container matColumnDef="nouveauPoste">
+          <th mat-header-cell *matHeaderCellDef>Nouveau Poste</th>
+          <td mat-cell *matCellDef="let affectation">
+            <div>
+              <p class="text-gray-900">{{affectation.nouveauPoste}}</p>
+              <p class="text-sm text-gray-500">{{affectation.nouvelleDirection}}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Date Affectation Column -->
+        <ng-container matColumnDef="dateAffectation">
+          <th mat-header-cell *matHeaderCellDef>Date Affectation</th>
+          <td mat-cell *matCellDef="let affectation">
+            {{affectation.dateAffectation | date:'dd/MM/yyyy'}}
+          </td>
+        </ng-container>
+
+        <!-- Statut Column -->
+        <ng-container matColumnDef="statut">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let affectation">
+            <span [class]="'px-3 py-1 rounded-full text-sm font-medium ' + getStatutColor(affectation.statut)">
+              {{affectation.statut}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="w-48">Actions</th>
+          <td mat-cell *matCellDef="let affectation" class="space-x-2">
+            @if (affectation.statut === 'PROPOSEE') {
+              <button 
+                (click)="validerAffectation(affectation)"
+                class="text-green-600 hover:text-green-800"
+                mat-icon-button
+                matTooltip="Valider l'affectation">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+              <button 
+                (click)="annulerAffectation(affectation)"
+                class="text-red-600 hover:text-red-800"
+                mat-icon-button
+                matTooltip="Annuler l'affectation">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            }
+            <button 
+              class="text-blue-600 hover:text-blue-800"
+              mat-icon-button
+              matTooltip="Voir les détails">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Loading state -->
+    @if (loading) {
+    <div class="text-center py-8">
+      <div class="inline-flex items-center space-x-2 text-gray-600">
+        <mat-icon class="animate-spin">refresh</mat-icon>
+        <span>Chargement des affectations...</span>
+      </div>
+    </div>
+    }
+
+    <!-- Empty state -->
+    @if (!loading && affectations.length === 0) {
+    <div class="text-center py-12">
+      <mat-icon class="text-gray-400 text-4xl mb-2">swap_horiz</mat-icon>
+      <p class="text-gray-500 mb-4">Aucune affectation trouvée</p>
+      <button 
+        (click)="ouvrirPropositionAffectation()"
+        class="bg-mali-green text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+        Proposer la première affectation
+      </button>
+    </div>
+    }
+  </div>
+</div>
+

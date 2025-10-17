@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,7 +10,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/core/auth/auth.service';
+import { MaterialModules } from 'app/material-imports';
+import { AuthService } from 'app/modules/admin/services/auth/auth.service';
+
 
 @Component({
     selector     : 'auth-sign-in',
@@ -18,101 +20,108 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     standalone   : true,
-    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MaterialModules],
 })
-export class AuthSignInComponent implements OnInit
-{
+export class AuthSignInComponent {
+
     @ViewChild('signInNgForm') signInNgForm: NgForm;
+  
+  signInForm: FormGroup;
+  showPassword = false;
+  showAlert = false;
+  alert: { type: FuseAlertType; message: string } = {
+    type: 'error',
+    message: ''
+  };
 
-    alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: '',
-    };
-    signInForm: UntypedFormGroup;
-    showAlert: boolean = false;
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _authService: AuthService,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
+  ) {}
 
-    /**
-     * Constructor
-     */
-    constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
-        private _formBuilder: UntypedFormBuilder,
-        private _router: Router,
-    )
-    {
+  ngOnInit(): void {
+    this.signInForm = this._formBuilder.group({
+      email: ['admin@douanes.com', [Validators.required, Validators.email]],
+      password: ['12345678', Validators.required],
+      rememberMe: ['']
+    });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  signIn(): void {
+    if (this.signInForm.invalid) {
+      return;
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
+    this.signInForm.disable();
+    this.showAlert = false;
 
-    /**
-     * On init
-     */
-    ngOnInit(): void
-    {
-        // Create the form
-        this.signInForm = this._formBuilder.group({
-            email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
-            password  : ['admin', Validators.required],
-            rememberMe: [''],
-        });
-    }
+    const { email, password } = this.signInForm.value;
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+    this._authService.login(email, password).subscribe({
+      next: (response) => {
+        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/dashboards';
+        this._router.navigateByUrl(redirectURL);
+      },
+      error: (error) => {
+        this.signInForm.enable();
+        this.alert = {
+          type: 'error',
+          message: error.message || 'Une erreur est survenue lors de la connexion'
+        };
+        this.showAlert = true;
+      }
+    });
+  }
 
-    /**
-     * Sign in
-     */
-    signIn(): void
-    {
-        // Return if the form is invalid
-        if ( this.signInForm.invalid )
-        {
-            return;
-        }
+  loginWithGoogle(): void {
+    this._authService.loginWithGoogle().subscribe({
+      next: (response) => {
+        this._router.navigate(['/dashboards']);
+      },
+      error: (error) => {
+        this.alert = {
+          type: 'error',
+          message: 'Erreur de connexion avec Google'
+        };
+        this.showAlert = true;
+      }
+    });
+  }
 
-        // Disable the form
-        this.signInForm.disable();
+  loginWithGithub(): void {
+    this._authService.loginWithGithub().subscribe({
+      next: (response) => {
+        this._router.navigate(['/dashboards']);
+      },
+      error: (error) => {
+        this.alert = {
+          type: 'error',
+          message: 'Erreur de connexion avec GitHub'
+        };
+        this.showAlert = true;
+      }
+    });
+  }
 
-        // Hide the alert
-        this.showAlert = false;
+  loginWithFacebook(): void {
+    this._authService.loginWithFacebook().subscribe({
+      next: (response) => {
+        this._router.navigate(['/dashboards']);
+      },
+      error: (error) => {
+        this.alert = {
+          type: 'error',
+          message: 'Erreur de connexion avec Facebook'
+        };
+        this.showAlert = true;
+      }
+    });
+  }
 
-        // Sign in
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () =>
-                {
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
-
-                },
-                (response) =>
-                {
-                    // Re-enable the form
-                    this.signInForm.enable();
-
-                    // Reset the form
-                    this.signInNgForm.resetForm();
-
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password',
-                    };
-
-                    // Show the alert
-                    this.showAlert = true;
-                },
-            );
-    }
 }

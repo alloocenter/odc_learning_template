@@ -1,0 +1,231 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Header -->
+    <div class="bg-card border-b">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 py-8 sm:py-12">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                        <img
+                            class="w-full h-full object-cover"
+                            src="assets/imgs/douane_logo 1.png" 
+                            alt="Douanes Mali">
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <div class="text-2xl md:text-4xl font-bold tracking-tight leading-7 md:leading-snug truncate text-gray-900">
+                            Tableau de Bord RH
+                        </div>
+                        <div class="flex items-center mt-1">
+                            <mat-icon
+                                class="icon-size-5 text-primary-600"
+                                [svgIcon]="'heroicons_solid:building-office'"></mat-icon>
+                            <div class="ml-2 text-sm leading-6 truncate text-secondary">
+                                Direction Générale des Douanes - Gestion du Personnel
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-4 space-x-3">
+                    <button
+                        mat-stroked-button
+                        class="border-gray-300">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:document-chart-bar'"></mat-icon>
+                        <span class="ml-2">Rapport</span>
+                    </button>
+                    <button
+                        mat-flat-button
+                        [color]="'primary'">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'heroicons_solid:plus'"></mat-icon>
+                        <span class="ml-2">Nouvelle Action</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-auto bg-gray-50/50">
+        <div class="w-full max-w-screen-xl mx-auto p-6 sm:p-8">
+            
+            <!-- Cartes de statistiques -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <mat-card 
+                    *ngFor="let card of statCards" 
+                    class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border-0">
+                    <mat-card-content class="p-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 min-w-0">
+                                <div class="text-sm font-medium text-gray-600 mb-1">{{ card.title }}</div>
+                                <div class="text-2xl font-bold text-gray-900 mb-2">{{ card.value }}</div>
+                                <div class="flex items-center">
+                                    <span [class]="getChangeColor(card.change)" class="flex items-center text-sm font-medium">
+                                        <mat-icon 
+                                            class="text-base !w-4 !h-4 mr-1"
+                                            [svgIcon]="getChangeIcon(card.change)"></mat-icon>
+                                        {{ Math.abs(card.change) }}%
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-2">{{ card.description }}</span>
+                                </div>
+                            </div>
+                            <div [class]="getCardColorClass(card.color) + ' rounded-xl p-3 text-white shadow-lg'">
+                                <mat-icon class="!w-6 !h-6" [svgIcon]="card.icon"></mat-icon>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <!-- Grille principale -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+                
+                <!-- Graphique de répartition -->
+                <mat-card class="xl:col-span-2 rounded-2xl shadow-sm border-0">
+                    <mat-card-header class="pb-4">
+                        <mat-card-title class="text-lg font-semibold">Répartition du Personnel</mat-card-title>
+                        <button mat-icon-button [matMenuTriggerFor]="distributionMenu" class="ml-auto -mr-2">
+                            <mat-icon [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+                        </button>
+                        <mat-menu #distributionMenu="matMenu">
+                            <button mat-menu-item>Ce mois-ci</button>
+                            <button mat-menu-item>Ce trimestre</button>
+                            <button mat-menu-item>Cette année</button>
+                        </mat-menu>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="h-80">
+                            <apx-chart
+                                [series]="personnelDistributionChart.series"
+                                [chart]="personnelDistributionChart.chart"
+                                [labels]="personnelDistributionChart.labels"
+                                [colors]="personnelDistributionChart.colors"
+                                [legend]="personnelDistributionChart.legend"
+                                [dataLabels]="personnelDistributionChart.dataLabels"
+                                [plotOptions]="personnelDistributionChart.plotOptions">
+                            </apx-chart>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <!-- Activités récentes -->
+                <mat-card class="rounded-2xl shadow-sm border-0">
+                    <mat-card-header class="pb-4">
+                        <mat-card-title class="text-lg font-semibold">Activités Récentes</mat-card-title>
+                        <button class="text-primary-600 hover:text-primary-700 text-sm font-medium ml-auto">
+                            Voir tout
+                        </button>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="space-y-4 max-h-80 overflow-y-auto">
+                            <div 
+                                *ngFor="let activity of recentActivities" 
+                                class="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                                <div [class]="'rounded-full p-2 ' + 
+                                            (activity.color === 'green' ? 'bg-green-100 text-green-600' : 
+                                            activity.color === 'purple' ? 'bg-purple-100 text-purple-600' :
+                                            activity.color === 'orange' ? 'bg-orange-100 text-orange-600' :
+                                            'bg-blue-100 text-blue-600')">
+                                    <mat-icon class="!w-4 !h-4" [svgIcon]="activity.icon"></mat-icon>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900">{{ activity.type }}</p>
+                                    <p class="text-sm text-gray-600 mt-1 leading-relaxed">{{ activity.description }}</p>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <span class="text-xs text-gray-500">{{ activity.time }}</span>
+                                        <span class="text-xs text-primary-600 font-medium">{{ activity.user }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <!-- Deuxième ligne -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                
+                <!-- Performance RH -->
+                <mat-card class="xl:col-span-2 rounded-2xl shadow-sm border-0">
+                    <mat-card-header class="pb-4">
+                        <mat-card-title class="text-lg font-semibold">Indicateurs de Performance RH</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="h-64">
+                            <apx-chart
+                                [series]="performanceChart.series"
+                                [chart]="performanceChart.chart"
+                                [colors]="performanceChart.colors"
+                                [dataLabels]="performanceChart.dataLabels"
+                                [stroke]="performanceChart.stroke"
+                                [fill]="performanceChart.fill"
+                                [xaxis]="performanceChart.xaxis"
+                                [yaxis]="performanceChart.yaxis"
+                                [grid]="performanceChart.grid">
+                            </apx-chart>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <!-- Alertes et notifications -->
+                <mat-card class="rounded-2xl shadow-sm border-0">
+                    <mat-card-header class="pb-4">
+                        <mat-card-title class="text-lg font-semibold">Alertes et Rappels</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="space-y-4">
+                            <div 
+                                *ngFor="let alert of alerts" 
+                                [class]="'flex items-center justify-between p-4 border rounded-xl ' + getAlertColorClass(alert)">
+                                <div class="flex items-center space-x-3">
+                                    <mat-icon 
+                                        [class]="'!w-5 !h-5 ' + getAlertIconColor(alert)"
+                                        [svgIcon]="alert.icon"></mat-icon>
+                                    <div>
+                                        <p class="text-sm font-medium">{{ alert.title }}</p>
+                                        <p class="text-xs opacity-75 mt-1">{{ alert.description }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg font-bold">{{ alert.count }}</span>
+                                    <button 
+                                        mat-stroked-button 
+                                        class="!text-xs !py-1 !px-2 border-current">
+                                        {{ alert.action }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <!-- Recrutement Trends -->
+            <mat-card class="mt-6 rounded-2xl shadow-sm border-0">
+                <mat-card-header class="pb-4">
+                    <mat-card-title class="text-lg font-semibold">Tendances du Recrutement</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="h-80">
+                        <apx-chart
+                            [series]="recruitmentChart.series"
+                            [chart]="recruitmentChart.chart"
+                            [colors]="recruitmentChart.colors"
+                            [stroke]="recruitmentChart.stroke"
+                            [markers]="recruitmentChart.markers"
+                            [xaxis]="recruitmentChart.xaxis"
+                            [grid]="recruitmentChart.grid">
+                        </apx-chart>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+    </div>
+
+</div>

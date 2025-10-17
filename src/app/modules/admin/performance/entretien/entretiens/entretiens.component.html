@@ -1,0 +1,197 @@
+<div class="p-6 space-y-6">
+  <!-- En-tête -->
+  <div class="flex justify-between items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Gestion des Entretiens</h1>
+      <p class="text-gray-600">Planifier et suivre les entretiens d'évaluation</p>
+    </div>
+    <button 
+      (click)="ouvrirPlanificationEntretien()"
+      class="bg-mali-green text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
+      <mat-icon>event_available</mat-icon>
+      <span>Planifier Entretien</span>
+    </button>
+  </div>
+
+  <!-- Statistiques -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Planifiés</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ entretiensPlanifier }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-green-100 text-green-600">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Réalisés</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ entretiensRealises }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-red-100 text-red-600">
+          <mat-icon>cancel</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Annulés</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ entretiensAnnules  }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+          <mat-icon>star</mat-icon>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600">Moyenne générale</p>
+          <p class="text-2xl font-bold text-gray-900">
+            {{ moyenneNotes | number:'1.1-1' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des entretiens -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="p-6 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-900">Historique des Entretiens</h2>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="entretiens" class="w-full">
+        
+        <!-- Employé Column -->
+        <ng-container matColumnDef="employe">
+          <th mat-header-cell *matHeaderCellDef>Employé</th>
+          <td mat-cell *matCellDef="let entretien" class="py-4">
+            <div>
+              <p class="font-semibold text-gray-900">{{entretien.employePrenom}} {{entretien.employeNom}}</p>
+              <p class="text-sm text-gray-500">Matricule: {{entretien.employeId}}</p>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let entretien">
+            {{entretien.dateEntretien | date:'dd/MM/yyyy'}}
+          </td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let entretien">
+            <span [class]="'px-2 py-1 rounded-full text-xs font-medium ' + getTypeColor(entretien.type)">
+              {{entretien.type}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Evaluateur Column -->
+        <ng-container matColumnDef="evaluateur">
+          <th mat-header-cell *matHeaderCellDef>Évaluateur</th>
+          <td mat-cell *matCellDef="let entretien">
+            {{entretien.evaluateur}}
+          </td>
+        </ng-container>
+
+        <!-- Note Globale Column -->
+        <ng-container matColumnDef="noteGlobale">
+          <th mat-header-cell *matHeaderCellDef>Note</th>
+          <td mat-cell *matCellDef="let entretien">
+            <div class="flex items-center space-x-2">
+              <span [class]="'text-lg font-bold ' + getNoteColor(entretien.noteGlobale)">
+                {{entretien.noteGlobale | number:'1.1-1'}}/5
+              </span>
+              <div class="w-16 bg-gray-200 rounded-full h-2">
+                <div 
+                  class="h-2 rounded-full"
+                  [class]="getNoteColor(entretien.noteGlobale).replace('text-', 'bg-')"
+                  [style.width]="(entretien.noteGlobale / 5 * 100) + '%'">
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Statut Column -->
+        <ng-container matColumnDef="statut">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let entretien">
+            <span [class]="'px-3 py-1 rounded-full text-sm font-medium ' + getStatutColor(entretien.statut)">
+              {{entretien.statut}}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="w-32">Actions</th>
+          <td mat-cell *matCellDef="let entretien" class="space-x-2">
+            <button 
+              class="text-blue-600 hover:text-blue-800"
+              mat-icon-button
+              matTooltip="Voir le détail">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button 
+              class="text-green-600 hover:text-green-800"
+              mat-icon-button
+              matTooltip="Télécharger le rapport">
+              <mat-icon>download</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Loading state -->
+    @if (loading) {
+    <div class="text-center py-8">
+      <div class="inline-flex items-center space-x-2 text-gray-600">
+        <mat-icon class="animate-spin">refresh</mat-icon>
+        <span>Chargement des entretiens...</span>
+      </div>
+    </div>
+    }
+
+    <!-- Empty state -->
+    @if (!loading && entretiens.length === 0) {
+    <div class="text-center py-12">
+      <mat-icon class="text-gray-400 text-4xl mb-2">event_note</mat-icon>
+      <p class="text-gray-500 mb-4">Aucun entretien planifié</p>
+      <button 
+        (click)="ouvrirPlanificationEntretien()"
+        class="bg-mali-green text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+        Planifier le premier entretien
+      </button>
+    </div>
+    }
+  </div>
+</div>

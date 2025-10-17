@@ -1,0 +1,54 @@
+<div class="p-6 space-y-6">
+    <!-- En-tête -->
+    <div class="flex justify-between items-center">
+        <div>
+           <h1 class="text-2xl font-bold text-gray-900">Fiches du Personnel</h1>
+           <p class="text-gray-600">Consultation détaillée des profils employés</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <!-- Liste des employés -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-4 border-b border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-900">Liste des Employés</h2>
+                </div>
+
+                <div class="max-h-96 overflow-y-auto">
+                    @for (employe of employes; track employe.id) {
+                        <div 
+                        (click)="selectionnerEmploye(employe)"
+                        class="'p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ' + (employeSelectionne?.id === employe.id ? 'bg-blue-50 border-blue-200' : '')">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-mali-green rounded-full flex items-center justify-center text-white font-semibold">
+                                {{employe.prenom.charAt(0)}} {{employe.nom.charAt(0)}}
+                            </div>
+
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">
+                                    {{employe.prenom}} {{employe.nom}}
+                                </p>
+                                <p class="text-sm text-gray-500 truncate">{{employe.poste}}</p>
+                                <p class="text-xs text-gray-400">{{employe.matricule}}</p>
+                            </div>
+
+                            <span [class]="'px-2 py-1 rounded-full text-xs font-medium ' + getStatutColor(employe.statut)">
+                                {{employe.statut}}
+                            </span>
+                         </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Fiche détaillée -->
+         
+
+
+
+    </div>
+
+</div>

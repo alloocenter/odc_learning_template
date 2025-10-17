@@ -4,1283 +4,448 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id      : 'dashboards',
-        title   : 'Dashboards',
-        subtitle: 'Unique dashboard designs',
-        type    : 'group',
+        title   : 'Tableau de Bord',
+        type    : 'basic',
         icon    : 'heroicons_outline:home',
+        link    : '/dashboards',
+        roles   : 'ADMIN, RH, EMPLOYE'
+    },
+    {
+        id      : 'gestion-personnel',
+        title   : 'Gestion du Personnel',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:users',
+        roles   : 'ADMIN, RH',
         children: [
             {
-                id   : 'dashboards.project',
-                title: 'Project',
+                id   : 'personnels.liste',
+                title: 'Liste du Personnel',
                 type : 'basic',
-                icon : 'heroicons_outline:clipboard-document-check',
-                link : '/dashboards/project',
+                link : '/personnels/liste',
+                roles: 'ADMIN, RH'
+            },
+            // {
+            //     id   : 'personnels.ajouter',
+            //     title: 'Ajouter Employé',
+            //     type : 'basic',
+            //     link : '/personnels/ajouter',
+            //     roles: 'ADMIN, RH'
+            // },
+              {
+                id   : 'personnels.departements',
+                title: 'Departements',
+                type : 'basic',
+                link : '/personnels/departements',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'dashboards.analytics',
-                title: 'Analytics',
+                id   : 'personnels.fiches',
+                title: 'Fiches Employés',
                 type : 'basic',
-                icon : 'heroicons_outline:chart-pie',
-                link : '/dashboards/analytics',
+                link : '/personnels/fiches',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'dashboards.finance',
-                title: 'Finance',
+                id   : 'personnels.conger',
+                title: 'Demander un congé',
                 type : 'basic',
-                icon : 'heroicons_outline:banknotes',
-                link : '/dashboards/finance',
+                link : '/personnels/conges',
+                roles: 'ADMIN, RH, EMPLOYE'
             },
-            {
-                id   : 'dashboards.crypto',
-                title: 'Crypto',
-                type : 'basic',
-                icon : 'heroicons_outline:currency-dollar',
-                link : '/dashboards/crypto',
-            },
-        ],
+        ]
     },
     {
-        id      : 'apps',
-        title   : 'Applications',
-        subtitle: 'Custom made application designs',
-        type    : 'group',
-        icon    : 'heroicons_outline:home',
+        id      : 'gestion-carrieres',
+        title   : 'Gestion des Carrières',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:arrow-trending-up',
+        roles   : 'ADMIN, RH',
         children: [
             {
-                id   : 'apps.academy',
-                title: 'Academy',
+                id   : 'carrieres.affectations',
+                title: 'Affectations',
                 type : 'basic',
-                icon : 'heroicons_outline:academic-cap',
-                link : '/apps/academy',
+                link : '/carrieres/affectations',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'apps.chat',
-                title: 'Chat',
+                id   : 'carrieres.promotions',
+                title: 'Promotions',
                 type : 'basic',
-                icon : 'heroicons_outline:chat-bubble-bottom-center-text',
-                link : '/apps/chat',
+                link : '/carrieres/promotions',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'apps.contacts',
-                title: 'Contacts',
+                id   : 'carrieres.retraites',
+                title: 'Retraites',
                 type : 'basic',
-                icon : 'heroicons_outline:user-group',
-                link : '/apps/contacts',
-            },
-            {
-                id      : 'apps.ecommerce',
-                title   : 'ECommerce',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:shopping-cart',
-                children: [
-                    {
-                        id   : 'apps.ecommerce.inventory',
-                        title: 'Inventory',
-                        type : 'basic',
-                        link : '/apps/ecommerce/inventory',
-                    },
-                ],
-            },
-            {
-                id   : 'apps.file-manager',
-                title: 'File Manager',
-                type : 'basic',
-                icon : 'heroicons_outline:cloud',
-                link : '/apps/file-manager',
-            },
-            {
-                id      : 'apps.help-center',
-                title   : 'Help Center',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:information-circle',
-                link    : '/apps/help-center',
-                children: [
-                    {
-                        id        : 'apps.help-center.home',
-                        title     : 'Home',
-                        type      : 'basic',
-                        link      : '/apps/help-center',
-                        exactMatch: true,
-                    },
-                    {
-                        id   : 'apps.help-center.faqs',
-                        title: 'FAQs',
-                        type : 'basic',
-                        link : '/apps/help-center/faqs',
-                    },
-                    {
-                        id   : 'apps.help-center.guides',
-                        title: 'Guides',
-                        type : 'basic',
-                        link : '/apps/help-center/guides',
-                    },
-                    {
-                        id   : 'apps.help-center.support',
-                        title: 'Support',
-                        type : 'basic',
-                        link : '/apps/help-center/support',
-                    },
-                ],
-            },
-            {
-                id   : 'apps.mailbox',
-                title: 'Mailbox',
-                type : 'basic',
-                icon : 'heroicons_outline:envelope',
-                link : '/apps/mailbox',
-                badge: {
-                    title  : '27',
-                    classes: 'px-2 bg-pink-600 text-white rounded-full',
-                },
-            },
-            {
-                id   : 'apps.notes',
-                title: 'Notes',
-                type : 'basic',
-                icon : 'heroicons_outline:pencil-square',
-                link : '/apps/notes',
-            },
-            {
-                id   : 'apps.scrumboard',
-                title: 'Scrumboard',
-                type : 'basic',
-                icon : 'heroicons_outline:view-columns',
-                link : '/apps/scrumboard',
-            },
-            {
-                id   : 'apps.tasks',
-                title: 'Tasks',
-                type : 'basic',
-                icon : 'heroicons_outline:check-circle',
-                link : '/apps/tasks',
-            },
-        ],
+                link : '/carrieres/retraites',
+                roles: 'ADMIN, RH'
+            }
+        ]
     },
     {
-        id      : 'pages',
-        title   : 'Pages',
-        subtitle: 'Custom made page designs',
-        type    : 'group',
-        icon    : 'heroicons_outline:document',
+        id      : 'performances',
+        title   : 'Performances',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:chart-bar',
+        roles   : 'ADMIN, RH',
         children: [
             {
-                id   : 'pages.activities',
-                title: 'Activities',
+                id   : 'performances.entretiens',
+                title: 'Entretiens',
                 type : 'basic',
-                icon : 'heroicons_outline:bars-3-bottom-left',
-                link : '/pages/activities',
+                link : '/performances/entretiens',
+                roles: 'ADMIN, RH'
             },
             {
-                id      : 'pages.authentication',
-                title   : 'Authentication',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:lock-closed',
-                children: [
-                    {
-                        id      : 'pages.authentication.sign-in',
-                        title   : 'Sign in',
-                        type    : 'collapsable',
-                        children: [
-                            {
-                                id   : 'pages.authentication.sign-in.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-in.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-in/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.sign-up',
-                        title   : 'Sign up',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/sign-up',
-                        children: [
-                            {
-                                id   : 'pages.authentication.sign-up.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-up.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-up/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.sign-out',
-                        title   : 'Sign out',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/sign-out',
-                        children: [
-                            {
-                                id   : 'pages.authentication.sign-out.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.sign-out.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/sign-out/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.forgot-password',
-                        title   : 'Forgot password',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/forgot-password',
-                        children: [
-                            {
-                                id   : 'pages.authentication.forgot-password.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.forgot-password.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/forgot-password/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.reset-password',
-                        title   : 'Reset password',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/reset-password',
-                        children: [
-                            {
-                                id   : 'pages.authentication.reset-password.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.reset-password.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/reset-password/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.unlock-session',
-                        title   : 'Unlock session',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/unlock-session',
-                        children: [
-                            {
-                                id   : 'pages.authentication.unlock-session.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.unlock-session.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/unlock-session/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'pages.authentication.confirmation-required',
-                        title   : 'Confirmation required',
-                        type    : 'collapsable',
-                        link    : '/pages/authentication/confirmation-required',
-                        children: [
-                            {
-                                id   : 'pages.authentication.confirmation-required.classic',
-                                title: 'Classic',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/classic',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/modern',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.modern-reversed',
-                                title: 'Modern Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/modern-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.split-screen',
-                                title: 'Split Screen',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/split-screen',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.split-screen-reversed',
-                                title: 'Split Screen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/split-screen-reversed',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.fullscreen',
-                                title: 'Fullscreen',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/fullscreen',
-                            },
-                            {
-                                id   : 'pages.authentication.confirmation-required.fullscreen-reversed',
-                                title: 'Fullscreen Reversed',
-                                type : 'basic',
-                                link : '/pages/authentication/confirmation-required/fullscreen-reversed',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                id      : 'pages.coming-soon',
-                title   : 'Coming Soon',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:clock',
-                link    : '/pages/coming-soon',
-                children: [
-                    {
-                        id   : 'pages.coming-soon.classic',
-                        title: 'Classic',
-                        type : 'basic',
-                        link : '/pages/coming-soon/classic',
-                    },
-                    {
-                        id   : 'pages.coming-soon.modern',
-                        title: 'Modern',
-                        type : 'basic',
-                        link : '/pages/coming-soon/modern',
-                    },
-                    {
-                        id   : 'pages.coming-soon.modern-reversed',
-                        title: 'Modern Reversed',
-                        type : 'basic',
-                        link : '/pages/coming-soon/modern-reversed',
-                    },
-                    {
-                        id   : 'pages.coming-soon.split-screen',
-                        title: 'Split Screen',
-                        type : 'basic',
-                        link : '/pages/coming-soon/split-screen',
-                    },
-                    {
-                        id   : 'pages.coming-soon.split-screen-reversed',
-                        title: 'Split Screen Reversed',
-                        type : 'basic',
-                        link : '/pages/coming-soon/split-screen-reversed',
-                    },
-                    {
-                        id   : 'pages.coming-soon.fullscreen',
-                        title: 'Fullscreen',
-                        type : 'basic',
-                        link : '/pages/coming-soon/fullscreen',
-                    },
-                    {
-                        id   : 'pages.coming-soon.fullscreen-reversed',
-                        title: 'Fullscreen Reversed',
-                        type : 'basic',
-                        link : '/pages/coming-soon/fullscreen-reversed',
-                    },
-                ],
-            },
-            {
-                id      : 'pages.error',
-                title   : 'Error',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:exclamation-circle',
-                children: [
-                    {
-                        id   : 'pages.error.404',
-                        title: '404',
-                        type : 'basic',
-                        link : '/pages/error/404',
-                    },
-                    {
-                        id   : 'pages.error.500',
-                        title: '500',
-                        type : 'basic',
-                        link : '/pages/error/500',
-                    },
-                ],
-            },
-            {
-                id      : 'pages.invoice',
-                title   : 'Invoice',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:calculator',
-                children: [
-                    {
-                        id      : 'pages.invoice.printable',
-                        title   : 'Printable',
-                        type    : 'collapsable',
-                        children: [
-                            {
-                                id   : 'pages.invoice.printable.compact',
-                                title: 'Compact',
-                                type : 'basic',
-                                link : '/pages/invoice/printable/compact',
-                            },
-                            {
-                                id   : 'pages.invoice.printable.modern',
-                                title: 'Modern',
-                                type : 'basic',
-                                link : '/pages/invoice/printable/modern',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                id   : 'pages.maintenance',
-                title: 'Maintenance',
+                id   : 'performances.contrats',
+                title: 'Contrats',
                 type : 'basic',
-                icon : 'heroicons_outline:exclamation-triangle',
-                link : '/pages/maintenance',
+                link : '/performances/contrats',
+                roles: 'ADMIN, RH'
             },
             {
-                id      : 'pages.pricing',
-                title   : 'Pricing',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:banknotes',
-                children: [
-                    {
-                        id   : 'pages.pricing.modern',
-                        title: 'Modern',
-                        type : 'basic',
-                        link : '/pages/pricing/modern',
-                    },
-                    {
-                        id   : 'pages.pricing.simple',
-                        title: 'Simple',
-                        type : 'basic',
-                        link : '/pages/pricing/simple',
-                    },
-                    {
-                        id   : 'pages.pricing.single',
-                        title: 'Single',
-                        type : 'basic',
-                        link : '/pages/pricing/single',
-                    },
-                    {
-                        id   : 'pages.pricing.table',
-                        title: 'Table',
-                        type : 'basic',
-                        link : '/pages/pricing/table',
-                    },
-                ],
-            },
-            {
-                id   : 'pages.profile',
-                title: 'Profile',
+                id   : 'performances.indicateurs',
+                title: 'Indicateurs',
                 type : 'basic',
-                icon : 'heroicons_outline:user-circle',
-                link : '/pages/profile',
-            },
-            {
-                id   : 'pages.settings',
-                title: 'Settings',
-                type : 'basic',
-                icon : 'heroicons_outline:cog-8-tooth',
-                link : '/pages/settings',
-            },
-        ],
+                link : '/performances/indicateurs',
+                roles: 'ADMIN, RH'
+            }
+        ]
     },
     {
-        id      : 'user-interface',
-        title   : 'User Interface',
-        subtitle: 'Building blocks of the UI & UX',
-        type    : 'group',
-        icon    : 'heroicons_outline:rectangle-stack',
+        id      : 'mobilite',
+        title   : 'Mobilité',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:arrows-right-left',
+        roles   : 'ADMIN, RH',
         children: [
             {
-                id   : 'user-interface.material-components',
-                title: 'Material Components',
+                id   : 'mobilite.horizontale',
+                title: 'Mobilité Horizontale',
                 type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/material-components',
+                link : '/mobilite/horizontale',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'user-interface.fuse-components',
-                title: 'Fuse Components',
+                id   : 'mobilite.verticale',
+                title: 'Mobilité Verticale',
                 type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/fuse-components',
+                link : '/mobilite/verticale',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'user-interface.other-components',
-                title: 'Other Components',
+                id   : 'mobilite.succession',
+                title: 'Plans de Succession',
                 type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/other-components',
-            },
-            {
-                id   : 'user-interface.tailwindcss',
-                title: 'TailwindCSS',
-                type : 'basic',
-                icon : 'heroicons_outline:sparkles',
-                link : '/ui/tailwindcss',
-            },
-            {
-                id   : 'user-interface.advanced-search',
-                title: 'Advanced Search',
-                type : 'basic',
-                icon : 'heroicons_outline:magnifying-glass-circle',
-                link : '/ui/advanced-search',
-            },
-            {
-                id   : 'user-interface.animations',
-                title: 'Animations',
-                type : 'basic',
-                icon : 'heroicons_outline:play',
-                link : '/ui/animations',
-            },
-            {
-                id   : 'user-interface.cards',
-                title: 'Cards',
-                type : 'basic',
-                icon : 'heroicons_outline:square-2-stack',
-                link : '/ui/cards',
-            },
-            {
-                id   : 'user-interface.colors',
-                title: 'Colors',
-                type : 'basic',
-                icon : 'heroicons_outline:swatch',
-                link : '/ui/colors',
-            },
-            {
-                id   : 'user-interface.confirmation-dialog',
-                title: 'Confirmation Dialog',
-                type : 'basic',
-                icon : 'heroicons_outline:question-mark-circle',
-                link : '/ui/confirmation-dialog',
-            },
-            {
-                id   : 'user-interface.datatable',
-                title: 'Datatable',
-                type : 'basic',
-                icon : 'heroicons_outline:table-cells',
-                link : '/ui/datatable',
-            },
-            {
-                id      : 'user-interface.forms',
-                title   : 'Forms',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:pencil-square',
-                children: [
-                    {
-                        id   : 'user-interface.forms.fields',
-                        title: 'Fields',
-                        type : 'basic',
-                        link : '/ui/forms/fields',
-                    },
-                    {
-                        id   : 'user-interface.forms.layouts',
-                        title: 'Layouts',
-                        type : 'basic',
-                        link : '/ui/forms/layouts',
-                    },
-                    {
-                        id   : 'user-interface.forms.wizards',
-                        title: 'Wizards',
-                        type : 'basic',
-                        link : '/ui/forms/wizards',
-                    },
-                ],
-            },
-            {
-                id      : 'user-interface.icons',
-                title   : 'Icons',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:bolt',
-                children: [
-                    {
-                        id   : 'user-interface.icons.heroicons-outline',
-                        title: 'Heroicons Outline',
-                        type : 'basic',
-                        link : '/ui/icons/heroicons-outline',
-                    },
-                    {
-                        id   : 'user-interface.icons.heroicons-solid',
-                        title: 'Heroicons Solid',
-                        type : 'basic',
-                        link : '/ui/icons/heroicons-solid',
-                    },
-                    {
-                        id   : 'user-interface.icons.heroicons-mini',
-                        title: 'Heroicons Mini',
-                        type : 'basic',
-                        link : '/ui/icons/heroicons-mini',
-                    },
-                    {
-                        id   : 'user-interface.icons.material-twotone',
-                        title: 'Material Twotone',
-                        type : 'basic',
-                        link : '/ui/icons/material-twotone',
-                    },
-                    {
-                        id   : 'user-interface.icons.material-outline',
-                        title: 'Material Outline',
-                        type : 'basic',
-                        link : '/ui/icons/material-outline',
-                    },
-                    {
-                        id   : 'user-interface.icons.material-solid',
-                        title: 'Material Solid',
-                        type : 'basic',
-                        link : '/ui/icons/material-solid',
-                    },
-                    {
-                        id   : 'user-interface.icons.feather',
-                        title: 'Feather',
-                        type : 'basic',
-                        link : '/ui/icons/feather',
-                    },
-                ],
-            },
-            {
-                id      : 'user-interface.page-layouts',
-                title   : 'Page Layouts',
-                type    : 'collapsable',
-                icon    : 'heroicons_outline:rectangle-group',
-                children: [
-                    {
-                        id   : 'user-interface.page-layouts.overview',
-                        title: 'Overview',
-                        type : 'basic',
-                        link : '/ui/page-layouts/overview',
-                    },
-                    {
-                        id   : 'user-interface.page-layouts.empty',
-                        title: 'Empty',
-                        type : 'basic',
-                        link : '/ui/page-layouts/empty',
-                    },
-                    {
-                        id: 'user-interface.page-layouts.carded',
-
-                        title   : 'Carded',
-                        type    : 'collapsable',
-                        children: [
-                            {
-                                id   : 'user-interface.page-layouts.carded.fullwidth',
-                                title: 'Fullwidth',
-                                type : 'basic',
-                                link : '/ui/page-layouts/carded/fullwidth',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.carded.left-sidebar-1',
-                                title: 'Left Sidebar #1',
-                                type : 'basic',
-                                link : '/ui/page-layouts/carded/left-sidebar-1',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.carded.left-sidebar-2',
-                                title: 'Left Sidebar #2',
-                                type : 'basic',
-                                link : '/ui/page-layouts/carded/left-sidebar-2',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.carded.right-sidebar-1',
-                                title: 'Right Sidebar #1',
-                                type : 'basic',
-                                link : '/ui/page-layouts/carded/right-sidebar-1',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.carded.right-sidebar-2',
-                                title: 'Right Sidebar #2',
-                                type : 'basic',
-                                link : '/ui/page-layouts/carded/right-sidebar-2',
-                            },
-                        ],
-                    },
-                    {
-                        id      : 'user-interface.page-layouts.simple',
-                        title   : 'Simple',
-                        type    : 'collapsable',
-                        children: [
-                            {
-                                id   : 'user-interface.page-layouts.simple.fullwidth-1',
-                                title: 'Fullwidth #1',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/fullwidth-1',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.fullwidth-2',
-                                title: 'Fullwidth #2',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/fullwidth-2',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.left-sidebar-1',
-                                title: 'Left Sidebar #1',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/left-sidebar-1',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.left-sidebar-2',
-                                title: 'Left Sidebar #2',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/left-sidebar-2',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.left-sidebar-3',
-                                title: 'Left Sidebar #3',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/left-sidebar-3',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.right-sidebar-1',
-                                title: 'Right Sidebar #1',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/right-sidebar-1',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.right-sidebar-2',
-                                title: 'Right Sidebar #2',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/right-sidebar-2',
-                            },
-                            {
-                                id   : 'user-interface.page-layouts.simple.right-sidebar-3',
-                                title: 'Right Sidebar #3',
-                                type : 'basic',
-                                link : '/ui/page-layouts/simple/right-sidebar-3',
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                id   : 'user-interface.typography',
-                title: 'Typography',
-                type : 'basic',
-                icon : 'heroicons_outline:pencil',
-                link : '/ui/typography',
-            },
-        ],
+                link : '/mobilite/succession',
+                roles: 'ADMIN, RH'
+            }
+        ]
     },
     {
-        id  : 'divider-1',
-        type: 'divider',
-    },
-    {
-        id      : 'documentation',
-        title   : 'Documentation',
-        subtitle: 'Everything you need to know about Fuse',
-        type    : 'group',
-        icon    : 'heroicons_outline:information-circle',
+        id      : 'recompenses-sanctions',
+        title   : 'Récompenses & Sanctions',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:trophy',
+        roles   : 'ADMIN, RH',
         children: [
             {
-                id   : 'documentation.changelog',
-                title: 'Changelog',
+                id   : 'recompenses.primes',
+                title: 'Primes',
                 type : 'basic',
-                icon : 'heroicons_outline:megaphone',
-                link : '/docs/changelog',
-                badge: {
-                    title  : '19.0.0',
-                    classes: 'px-2 bg-yellow-300 text-black rounded-full',
-                },
+                link : '/recompenses/primes',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'documentation.guides',
-                title: 'Guides',
+                id   : 'recompenses.aides',
+                title: 'Aides Sociales',
                 type : 'basic',
-                icon : 'heroicons_outline:book-open',
-                link : '/docs/guides',
+                link : '/recompenses/aides',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'user-interface.material-components',
-                title: 'Material Components',
+                id   : 'recompenses.sanctions',
+                title: 'Sanctions',
                 type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/material-components',
-            },
-            {
-                id   : 'user-interface.fuse-components',
-                title: 'Fuse Components',
-                type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/fuse-components',
-            },
-            {
-                id   : 'user-interface.other-components',
-                title: 'Other Components',
-                type : 'basic',
-                icon : 'heroicons_outline:square-3-stack-3d',
-                link : '/ui/other-components',
-            },
-        ],
+                link : '/recompenses/sanctions',
+                roles: 'ADMIN, RH'
+            }
+        ]
     },
     {
-        id  : 'divider-2',
-        type: 'divider',
-    },
-    {
-        id      : 'navigation-features',
-        title   : 'Navigation features',
-        subtitle: 'Collapsable levels & badge styles',
-        type    : 'group',
-        icon    : 'heroicons_outline:bars-3',
+        id      : 'formation',
+        title   : 'Formation',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:academic-cap',
+        roles   : 'ADMIN, RH, EMPLOYE',
         children: [
             {
-                id      : 'navigation-features.level.0',
-                title   : 'Level 0',
-                icon    : 'heroicons_outline:check-circle',
-                type    : 'collapsable',
-                children: [
-                    {
-                        id      : 'navigation-features.level.0.1',
-                        title   : 'Level 1',
-                        type    : 'collapsable',
-                        children: [
-                            {
-                                id      : 'navigation-features.level.0.1.2',
-                                title   : 'Level 2',
-                                type    : 'collapsable',
-                                children: [
-                                    {
-                                        id      : 'navigation-features.level.0.1.2.3',
-                                        title   : 'Level 3',
-                                        type    : 'collapsable',
-                                        children: [
-                                            {
-                                                id      : 'navigation-features.level.0.1.2.3.4',
-                                                title   : 'Level 4',
-                                                type    : 'collapsable',
-                                                children: [
-                                                    {
-                                                        id      : 'navigation-features.level.0.1.2.3.4.5',
-                                                        title   : 'Level 5',
-                                                        type    : 'collapsable',
-                                                        children: [
-                                                            {
-                                                                id   : 'navigation-features.level.0.1.2.3.4.5.6',
-                                                                title: 'Level 6',
-                                                                type : 'basic',
-                                                            },
-                                                        ],
-                                                    },
-                                                ],
-                                            },
-                                        ],
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                id      : 'navigation-features.level.0',
-                title   : 'Level 0',
-                subtitle: 'With subtitle',
-                icon    : 'heroicons_outline:check-circle',
-                type    : 'collapsable',
-                children: [
-                    {
-                        id   : 'navigation-features.level.0.1-1',
-                        title: 'Level 1.1',
-                        type : 'basic',
-                    },
-                    {
-                        id   : 'navigation-features.level.0.1-2',
-                        title: 'Level 1.2',
-                        type : 'basic',
-                    },
-                ],
-            },
-            {
-                id      : 'navigation-features.active',
-                title   : 'Active item',
-                subtitle: 'Manually marked as active',
-                icon    : 'heroicons_outline:check-circle',
-                type    : 'basic',
-                active  : true,
-            },
-            {
-                id      : 'navigation-features.disabled-collapsable',
-                title   : 'Disabled collapsable',
-                subtitle: 'Some subtitle',
-                icon    : 'heroicons_outline:check-circle',
-                type    : 'collapsable',
-                disabled: true,
-                children: [
-                    {
-                        id   : 'navigation-features.disabled-collapsable.child',
-                        title: 'You shouldn\'t be able to see this child',
-                        type : 'basic',
-                    },
-                ],
-            },
-            {
-                id      : 'navigation-features.disabled-basic',
-                title   : 'Disabled basic',
-                subtitle: 'Some subtitle',
-                icon    : 'heroicons_outline:check-circle',
-                type    : 'basic',
-                disabled: true,
-            },
-            {
-                id   : 'navigation-features.badge-style-oval',
-                title: 'Oval badge',
-                icon : 'heroicons_outline:tag',
+                id   : 'formation.plan',
+                title: 'Plan de Formation',
                 type : 'basic',
-                badge: {
-                    title  : '8',
-                    classes: 'w-5 h-5 bg-teal-400 text-black rounded-full',
-                },
+                link : '/formation/plan',
+                roles: 'ADMIN, RH'
             },
             {
-                id   : 'navigation-features.badge-style-rectangle',
-                title: 'Rectangle badge',
-                icon : 'heroicons_outline:tag',
+                id   : 'formation.sessions',
+                title: 'Sessions',
                 type : 'basic',
-                badge: {
-                    title  : 'Updated!',
-                    classes: 'px-2 bg-teal-400 text-black rounded',
-                },
+                link : '/formation/sessions',
+                roles: 'ADMIN, RH, EMPLOYE'
             },
             {
-                id   : 'navigation-features.badge-style-rounded',
-                title: 'Rounded badge',
-                icon : 'heroicons_outline:tag',
+                id   : 'formation.auto-evaluation',
+                title: 'Auto-évaluation',
                 type : 'basic',
-                badge: {
-                    title  : 'NEW',
-                    classes: 'px-2.5 bg-teal-400 text-black rounded-full',
-                },
-            },
-            {
-                id   : 'navigation-features.badge-style-simple',
-                title: 'Simple badge',
-                icon : 'heroicons_outline:tag',
-                type : 'basic',
-                badge: {
-                    title  : '87 Unread',
-                    classes: 'text-teal-500',
-                },
-            },
-            {
-                id   : 'navigation-features.multi-line',
-                title: 'A multi line navigation item title example which works just fine',
-                icon : 'heroicons_outline:check-circle',
-                type : 'basic',
-            },
-        ],
+                link : '/formation/auto-evaluation',
+                roles: 'EMPLOYE'
+            }
+        ]
     },
+    {
+        id      : 'statistiques',
+        title   : 'Statistiques RH',
+        type    : 'collapsable',
+        icon    : 'heroicons_outline:chart-pie',
+        roles   : 'ADMIN, RH',
+        children: [
+            {
+                id   : 'statistiques.pyramide',
+                title: 'Pyramide des Âges',
+                type : 'basic',
+                link : '/statistiques/pyramide',
+                roles: 'ADMIN, RH'
+            },
+            {
+                id   : 'statistiques.repartition',
+                title: 'Répartition',
+                type : 'basic',
+                link : '/statistiques/repartition',
+                roles: 'ADMIN, RH'
+            },
+            {
+                id   : 'statistiques.rapports',
+                title: 'Rapports',
+                type : 'basic',
+                link : '/statistiques/rapports',
+                roles: 'ADMIN, RH'
+            }
+        ]
+    }
 ];
+
 export const compactNavigation: FuseNavigationItem[] = [
     {
         id      : 'dashboards',
-        title   : 'Dashboards',
-        tooltip : 'Dashboards',
+        title   : 'Tableau de Bord',
+        tooltip : 'Tableau de Bord',
         type    : 'aside',
         icon    : 'heroicons_outline:home',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
     },
     {
-        id      : 'apps',
-        title   : 'Apps',
-        tooltip : 'Apps',
+        id      : 'gestion-personnel',
+        title   : 'Personnel',
+        tooltip : 'Gestion du Personnel',
         type    : 'aside',
-        icon    : 'heroicons_outline:qrcode',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:users',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'pages',
-        title   : 'Pages',
-        tooltip : 'Pages',
+        id      : 'gestion-carrieres',
+        title   : 'Carrières',
+        tooltip : 'Gestion des Carrières',
         type    : 'aside',
-        icon    : 'heroicons_outline:document-duplicate',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:trending-up',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'user-interface',
-        title   : 'UI',
-        tooltip : 'UI',
+        id      : 'performances',
+        title   : 'Performances',
+        tooltip : 'Performances',
         type    : 'aside',
-        icon    : 'heroicons_outline:rectangle-stack',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:chart-bar',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'navigation-features',
-        title   : 'Navigation',
-        tooltip : 'Navigation',
+        id      : 'mobilite',
+        title   : 'Mobilité',
+        tooltip : 'Mobilité',
         type    : 'aside',
-        icon    : 'heroicons_outline:bars-3',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:arrows-right-left',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
+    {
+        id      : 'recompenses-sanctions',
+        title   : 'Récompenses',
+        tooltip : 'Récompenses & Sanctions',
+        type    : 'aside',
+        icon    : 'heroicons_outline:award',
+        children: [],
+        roles   : 'ADMIN, RH'
+    },
+    {
+        id      : 'formation',
+        title   : 'Formation',
+        tooltip : 'Formation',
+        type    : 'aside',
+        icon    : 'heroicons_outline:academic-cap',
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
+    },
+    {
+        id      : 'statistiques',
+        title   : 'Statistiques',
+        tooltip : 'Statistiques RH',
+        type    : 'aside',
+        icon    : 'heroicons_outline:chart-pie',
+        children: [],
+        roles   : 'ADMIN, RH'
+    }
 ];
+
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id      : 'dashboards',
-        title   : 'DASHBOARDS',
+        title   : 'TABLEAU DE BORD',
         type    : 'group',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
     },
     {
-        id      : 'apps',
-        title   : 'APPS',
+        id      : 'gestion',
+        title   : 'GESTION',
         type    : 'group',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        children: []
     },
     {
-        id   : 'others',
-        title: 'OTHERS',
-        type : 'group',
-    },
-    {
-        id      : 'pages',
-        title   : 'Pages',
+        id      : 'gestion-personnel',
+        title   : 'Personnel',
         type    : 'aside',
-        icon    : 'heroicons_outline:document-duplicate',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:users',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'user-interface',
-        title   : 'User Interface',
+        id      : 'gestion-carrieres',
+        title   : 'Carrières',
         type    : 'aside',
-        icon    : 'heroicons_outline:rectangle-stack',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:trending-up',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'navigation-features',
-        title   : 'Navigation Features',
+        id      : 'performances',
+        title   : 'Performances',
         type    : 'aside',
-        icon    : 'heroicons_outline:bars-3',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:chart-bar',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
+    {
+        id      : 'mobilite',
+        title   : 'Mobilité',
+        type    : 'aside',
+        icon    : 'heroicons_outline:arrows-right-left',
+        children: [],
+        roles   : 'ADMIN, RH'
+    },
+    {
+        id      : 'recompenses-sanctions',
+        title   : 'Récompenses',
+        type    : 'aside',
+        icon    : 'heroicons_outline:award',
+        children: [],
+        roles   : 'ADMIN, RH'
+    },
+    {
+        id      : 'formation',
+        title   : 'Formation',
+        type    : 'aside',
+        icon    : 'heroicons_outline:academic-cap',
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
+    },
+    {
+        id      : 'statistiques',
+        title   : 'Statistiques',
+        type    : 'aside',
+        icon    : 'heroicons_outline:chart-pie',
+        children: [],
+        roles   : 'ADMIN, RH'
+    }
 ];
+
 export const horizontalNavigation: FuseNavigationItem[] = [
     {
         id      : 'dashboards',
-        title   : 'Dashboards',
+        title   : 'Tableau de Bord',
         type    : 'group',
         icon    : 'heroicons_outline:home',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
     },
     {
-        id      : 'apps',
-        title   : 'Apps',
+        id      : 'gestion-personnel',
+        title   : 'Personnel',
         type    : 'group',
-        icon    : 'heroicons_outline:qrcode',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:users',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'pages',
-        title   : 'Pages',
+        id      : 'gestion-carrieres',
+        title   : 'Carrières',
         type    : 'group',
-        icon    : 'heroicons_outline:document-duplicate',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:arrow-trending-up',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'user-interface',
-        title   : 'UI',
+        id      : 'performances',
+        title   : 'Performances',
         type    : 'group',
-        icon    : 'heroicons_outline:rectangle-stack',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:chart-bar',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
     {
-        id      : 'navigation-features',
-        title   : 'Misc',
+        id      : 'mobilite',
+        title   : 'Mobilité',
         type    : 'group',
-        icon    : 'heroicons_outline:bars-3',
-        children: [], // This will be filled from defaultNavigation so we don't have to manage multiple sets of the same navigation
+        icon    : 'heroicons_outline:arrows-right-left',
+        children: [],
+        roles   : 'ADMIN, RH'
     },
+    {
+        id      : 'recompenses-sanctions',
+        title   : 'Récompenses',
+        type    : 'group',
+        icon    : 'heroicons_outline:trophy',
+        children: [],
+        roles   : 'ADMIN, RH'
+    },
+    {
+        id      : 'formation',
+        title   : 'Formation',
+        type    : 'group',
+        icon    : 'heroicons_outline:academic-cap',
+        children: [],
+        roles   : 'ADMIN, RH, EMPLOYE'
+    },
+    {
+        id      : 'statistiques',
+        title   : 'Statistiques',
+        type    : 'group',
+        icon    : 'heroicons_outline:chart-pie',
+        children: [],
+        roles   : 'ADMIN, RH'
+    }
 ];

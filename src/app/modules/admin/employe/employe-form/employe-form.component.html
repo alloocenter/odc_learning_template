@@ -1,0 +1,158 @@
+<div class="p-6">
+    <h2 class="text-xl font-bold text-gray-900 mb-6"></h2>
+
+    <form (ngSubmit)="onSubmit" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Informations personnelles -->
+            <mat-form-field class="w-full">
+               <mat-label>Nom</mat-label>
+               <input matInput [(ngModel)]="employe.nom" name="nom" required>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+               <mat-label>Prénom</mat-label>
+               <input matInput [(ngModel)]="employe.prenom" name="prenom" required>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Date de Naissance</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="employe.dateNaissance" name="dateNaissance" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Lieu de naissance</mat-label>
+                <input matInput [(ngModel)]="employe.lieuNaissance" name="lieuNaissance" required>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Genre</mat-label>
+                <mat-select [(value)]="employe.genre" required>
+                    <mat-option value="M">Masculin</mat-option>
+                    <mat-option value="M">Masculin</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Situation familiale</mat-label>
+                <mat-select [(value)]="employe.situationFamiliale" required>
+                    @for (situation of situationsFamiliales; track situation) {
+                        <mat-option [value]="situation">{{situation}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>Nombre d'enfants</mat-label>
+                <input matInput type="number" [(ngModel)]="employe.nombreEnfants" name="nombreEnfants" min="0">
+            </mat-form-field>
+        </div>
+
+        <!-- Informations professionnelles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Date d'embauche</mat-label>
+        <input matInput [matDatepicker]="pickerEmbauche" [(ngModel)]="employe.dateEmbauche" name="dateEmbauche" required>
+        <mat-datepicker-toggle matSuffix [for]="pickerEmbauche"></mat-datepicker-toggle>
+        <mat-datepicker #pickerEmbauche></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Poste</mat-label>
+        <input matInput [(ngModel)]="employe.poste" name="poste" required>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Grade</mat-label>
+        <mat-select [(value)]="employe.grade" required>
+          @for (grade of grades; track grade) {
+            <mat-option [value]="grade">{{grade}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Échelon</mat-label>
+        <input matInput [(ngModel)]="employe.echelon" name="echelon" required>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Departement</mat-label>
+        <mat-select [(value)]="employe.departement" required>
+            <mat-option>Tous les  departements...</mat-option>
+          @for (dept of departements ; track dept) {
+            <mat-option [value]="dept">{{dept.nom}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-form-field class="w-full">
+        <mat-label>Service</mat-label>
+        <input matInput [(ngModel)]="employe.departement" name="service" required>
+      </mat-form-field> -->
+
+      <mat-form-field class="w-full">
+        <mat-label>Salaire</mat-label>
+        <input matInput type="number" [(ngModel)]="employe.salaire" name="salaire" required>
+        <span matPrefix>FCFA&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Statut</mat-label>
+        <mat-select [(value)]="employe.statut" required>
+          <mat-option value="ACTIF">Actif</mat-option>
+          <mat-option value="INACTIF">Inactif</mat-option>
+          <mat-option value="RETRAITE">Retraité</mat-option>
+          <mat-option value="CONGE">Congé</mat-option>
+          <mat-option value="DETACHE">Détaché</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Coordonnées -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <mat-form-field class="w-full">
+        <mat-label>Téléphone</mat-label>
+        <input matInput [(ngModel)]="employe.telephone" name="telephone" required>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [(ngModel)]="employe.email" name="email" required>
+      </mat-form-field>
+
+      <mat-form-field class="w-full md:col-span-2">
+        <mat-label>Adresse</mat-label>
+        <textarea matInput [(ngModel)]="employe.adresse" name="adresse" rows="2" required></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end space-x-3 pt-4">
+      <button 
+        type="button"
+        (click)="onCancel()"
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+        Annuler
+      </button>
+      <!-- <button 
+        type="submit"
+        class="bg-blue-200 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">
+        {{isEdit ? 'Modifier' : 'Ajouter un Employe'}}
+      </button> -->
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 shadow-md hover:shadow-lg transition-all duration-200 bg-blue-200 hover:bg-blue-900 text-white">
+        <mat-icon>add</mat-icon>
+        {{isEdit ? 'Modifier' : 'Ajouter'}}
+      </button>
+
+    </div>
+
+
+    </form>
+
+</div>

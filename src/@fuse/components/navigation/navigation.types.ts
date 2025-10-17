@@ -17,6 +17,7 @@ export interface FuseNavigationItem
     disabled?: boolean;
     tooltip?: string;
     link?: string;
+    roles?: string;
     fragment?: string;
     preserveFragment?: boolean;
     queryParams?: Params | null;
