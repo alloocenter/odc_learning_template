@@ -1,3 +1,17 @@
+import { Employe } from "./employe.model";
+
+export interface Carriere {
+  id?: number;
+  employeId: number;
+  employe?: Employe;
+  typeEvenement: 'AFFECTATION' | 'PROMOTION' | 'RETRAITE' | 'DETACHEMENT';
+  dateEvenement: Date;
+  details: string;
+  ancienPoste?: string;
+  nouveauPoste?: string;
+}
+
+
 export interface Affectation {
   id: number;
   employeId: number;

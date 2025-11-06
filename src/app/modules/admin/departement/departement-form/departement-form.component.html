@@ -1,15 +1,72 @@
-<div class="p-6">
-      <h2 class="text-lg font-bold mb-4">Nouveau Département</h2>
-      <form (ngSubmit)="onSubmit()">
-        <mat-form-field class="w-full mb-4">
-          <input matInput [(ngModel)]="departement.nom" name="nom" placeholder="Nom" required>
-        </mat-form-field>
-        <mat-form-field class="w-full mb-4">
-          <textarea matInput [(ngModel)]="departement.description" name="description" placeholder="Description" required></textarea>
-        </mat-form-field>
-        <div class="flex justify-end gap-2">
-          <button mat-button type="button" (click)="onCancel()">Annuler</button>
-          <button mat-flat-button color="primary" type="submit">Ajouter</button>
+<div class="bg-white rounded-lg shadow-xl overflow-hidden">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="relative">
+    <mat-toolbar-row class="px-6">
+      <div class="flex items-center">
+        <mat-icon class="mr-3">business</mat-icon>
+        <span class="text-xl font-semibold">Nouveau Département</span>
+      </div>
+      <span class="flex-1"></span>
+      <button class="text-white hover:bg-white/10 rounded-full p-1 transition-colors" mat-icon-button mat-dialog-close
+        aria-label="Fermer">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <!-- Content -->
+  <mat-card-content class="mat-typography p-0">
+    <form (ngSubmit)="onSubmit()" class="space-y-8 p-6 max-h-[70vh] overflow-y-auto">
+      <!-- Informations personnelles -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+          <h3 class="text-lg font-semibold text-gray-800">Informations personnelles</h3>
         </div>
-      </form>
-    </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nom du departement</mat-label>
+            <input matInput [(ngModel)]="departement.nom" name="nom" placeholder="Nom" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Le nom du departement est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Description du departement</mat-label>
+            <textarea matInput [(ngModel)]="departement.description" rows="3" name="description" placeholder="Description" required></textarea>
+            <!-- <input matInput [(ngModel)]="departement.description" name="description" placeholder="Description" required> -->
+            <mat-icon matSuffix>work</mat-icon>
+            <mat-error>La description est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombre d'employe</mat-label>
+            <input matInput [(ngModel)]="departement.nom" type="number" name="nombre d'employe" placeholder="Nombre d'employé" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Le nombre d'emplye est obligatoire</mat-error>
+          </mat-form-field>
+
+        </div>
+      </div>
+
+      <!-- Actions À L'INTÉRIEUR DU FORMULAIRE -->
+      <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+        <button mat-stroked-button color="warn" type="button" (click)="onCancel()"
+          class="flex items-center space-x-2 px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 transition-colors rounded-lg">
+          <mat-icon class="text-lg">close</mat-icon>
+          <span>Annuler</span>
+        </button>
+
+        <button mat-raised-button color="primary" type="submit"
+          class="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg shadow-md hover:shadow-lg">
+          <mat-icon class="text-lg">edit</mat-icon>
+          <span class="font-medium">Modifier</span>
+        </button>
+      </div>
+
+
+    </form>
+  </mat-card-content>
+
+</div>

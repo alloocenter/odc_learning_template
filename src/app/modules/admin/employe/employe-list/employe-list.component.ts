@@ -10,6 +10,7 @@ import { EmployeService } from '../../services/employe/employe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeFormComponent } from '../employe-form/employe-form.component';
 import { Employe } from '../../models/employe.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class EmployeListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  constructor(private employeService: EmployeService, private dialog: MatDialog) {}
+  constructor(private employeService: EmployeService, private dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {
     this.loadEmployes();
@@ -69,8 +70,8 @@ export class EmployeListComponent implements OnInit {
   ouvrirAjouterEmploye(): void {
     const dialogRef = this.dialog.open(EmployeFormComponent, 
       {
-        width: '800px',
-        height: '600px',
+        width: '700px',
+        height: '500px',
         data: {}
       });
 
@@ -81,11 +82,21 @@ export class EmployeListComponent implements OnInit {
       });
   }
 
+
+  voirDetailsEmploye(employe: Employe): void {
+    if(employe && employe.id) {
+      this.router.navigate["/personnels/details" + employe.id];
+    } else {
+      console.error('erreur de voir les details');
+      
+    }
+  }
+
   modifierEmploye(employe: Employe): void {
     const dialogRef = this.dialog.open(EmployeFormComponent,
       {
-      width: '800px',
-      height: '600px',
+      width: '700px',
+      height: '500px',
       data: {employe}
     });
     

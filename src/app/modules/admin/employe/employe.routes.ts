@@ -4,6 +4,7 @@ import { EmployeListComponent } from "./employe-list/employe-list.component";
 import { FichesEmployeComponent } from "./fiches-employe/fiches-employe.component";
 import { EmployeCongeComponent } from "./conge/employe-conge/employe-conge.component";
 import { DepartementListeComponent } from "../departement/departement-liste/departement-liste.component";
+import { EmployeDetailsComponent } from "./employe-details/employe-details.component";
 
 export default  [
 
@@ -20,8 +21,13 @@ export default  [
                 component: EmployeFormComponent,
                 data: { title: 'Ajouter Employé' }
             },
+             {
+                path: 'details/:id',
+                component: EmployeDetailsComponent,
+                data: { title: 'details Employés' }
+            },
             {
-                path: 'fiches',
+                path: 'fiches/:id',
                 component: FichesEmployeComponent,
                 data: { title: 'Fiches Employés' }
             },

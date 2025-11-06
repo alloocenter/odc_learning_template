@@ -20,6 +20,7 @@ export class DepartementListeComponent implements OnInit {
   private dialog = inject(MatDialog);
   
   departements: Departement[] = [];
+  loading = false;
 
   ngOnInit() {
     this.loadDepartements();
@@ -34,6 +35,16 @@ export class DepartementListeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => result && this.loadDepartements());
   }
 
+
+  modifierDepartement(departement: any): void {
+    // Logique pour modifier un département
+  }
+
+  voirDetails(departement: any): void {
+    // Logique pour voir les détails
+  }
+
+  
   supprimerDepartement(id: number) {
     if(confirm('Supprimer ce département?')) {
       this.departementService.supprimerDepartement(id).subscribe(() => this.loadDepartements());

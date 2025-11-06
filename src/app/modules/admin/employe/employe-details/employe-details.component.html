@@ -1,1 +1,212 @@
-<p>employe-details works!</p>
+<div *ngIf="employe" class="bg-white rounded-lg shadow-lg print:shadow-none print:rounded-none">
+  <!-- En-tête officielle -->
+  <div class="border-b-4 border-blue-800 print:border-b-2">
+    <div class="flex justify-between items-center p-6 print:p-4">
+      <div class="flex items-center space-x-4">
+        <div class="w-16 h-16 bg-blue-800 rounded-full flex items-center justify-center print:w-12 print:h-12">
+          <mat-icon class="text-white text-2xl print:text-xl">security</mat-icon>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-blue-900 print:text-lg">RÉPUBLIQUE DU MALI</h1>
+          <h2 class="text-lg font-semibold text-blue-800 print:text-base">Direction Générale des Douanes</h2>
+        </div>
+      </div>
+      <div class="text-right">
+        <div class="w-32 h-32 border-2 border-blue-800 bg-gray-100 flex items-center justify-center print:w-24 print:h-24">
+          <span class="text-blue-800 text-sm print:text-xs">Photo 4x4</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Corps de la fiche -->
+  <div class="p-6 print:p-4 space-y-6">
+    <!-- Titre de la fiche -->
+    <div class="text-center border-b-2 border-blue-600 pb-4">
+      <h3 class="text-2xl font-bold text-blue-900 print:text-xl">FICHE SIGNALÉTIQUE DE L'AGENT</h3>
+      <p class="text-blue-700 print:text-sm">Document officiel - Direction des Ressources Humaines</p>
+    </div>
+
+    <!-- Informations personnelles -->
+    <div class="border border-gray-300 rounded-lg print:border-gray-400">
+      <div class="bg-blue-900 text-white p-3 rounded-t-lg print:bg-gray-200 print:text-black">
+        <h4 class="text-lg font-bold print:text-base flex items-center">
+          <mat-icon class="mr-2 text-xl print:text-lg">person</mat-icon>
+          INFORMATIONS PERSONNELLES
+        </h4>
+      </div>
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 print:gap-2 print:p-3" *ngIf="employe">
+        <div  class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Matricule:</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{ employe.matricule }}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Nom</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.nom}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Prénom</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.prenom}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Date de Naissance</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.dateNaissance | date:'dd/MM/yyyy'}}</p>
+          </div>
+        </div>
+        
+        <div class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Lieu de Naissance</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.lieuNaissance}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Genre</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.genre === 'M' ? 'Masculin' : 'Féminin'}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Situation Familiale</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.situationFamiliale}}</p>
+          </div>
+        </div>
+        
+        <div class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Nombre d'Enfants</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.nombreEnfants || '0'}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Téléphone</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.telephone}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Email</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.email}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Informations professionnelles -->
+    <div class="border border-gray-300 rounded-lg print:border-gray-400">
+      <div class="bg-blue-900 text-white p-3 rounded-t-lg print:bg-gray-200 print:text-black">
+        <h4 class="text-lg font-bold print:text-base flex items-center">
+          <mat-icon class="mr-2 text-xl print:text-lg">work</mat-icon>
+          INFORMATIONS PROFESSIONNELLES
+        </h4>
+      </div>
+      <div class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 print:gap-2 print:p-3">
+        <div class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Date d'Embauche</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.dateEmbauche | date:'dd/MM/yyyy'}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Poste</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.poste}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Grade</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.grade}}</p>
+          </div>
+        </div>
+        
+        <div class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Échelon</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.echelon}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Département</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.departement?.nom || employe.departement}}</p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Salaire</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{employe.salaire | number}} FCFA</p>
+          </div>
+        </div>
+        
+        <div class="space-y-3 print:space-y-1">
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Statut</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">
+              <span [class]="getStatusClass(employe.statut)" class="px-2 py-1 rounded-full text-xs font-medium">
+                {{getStatusLabel(employe.statut)}}
+              </span>
+            </p>
+          </div>
+          <div>
+            <label class="text-sm font-semibold text-blue-900 print:text-xs">Ancienneté</label>
+            <p class="text-gray-800 border-b border-gray-200 pb-1 print:text-sm">{{calculateAnciennete(employe.dateEmbauche)}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adresse -->
+    <div class="border border-gray-300 rounded-lg print:border-gray-400">
+      <div class="bg-blue-900 text-white p-3 rounded-t-lg print:bg-gray-200 print:text-black">
+        <h4 class="text-lg font-bold print:text-base flex items-center">
+          <mat-icon class="mr-2 text-xl print:text-lg">location_on</mat-icon>
+          ADRESSE
+        </h4>
+      </div>
+      <div class="p-4 print:p-3">
+        <p class="text-gray-800 border-b border-gray-200 pb-2 print:text-sm">{{employe.adresse}}</p>
+      </div>
+    </div>
+
+    <!-- Signatures -->
+    <div class="border border-gray-300 rounded-lg print:border-gray-400 mt-8">
+      <div class="bg-blue-900 text-white p-3 rounded-t-lg print:bg-gray-200 print:text-black">
+        <h4 class="text-lg font-bold print:text-base flex items-center">
+          <mat-icon class="mr-2 text-xl print:text-lg">assignment_turned_in</mat-icon>
+          SIGNATURES ET CACHETS
+        </h4>
+      </div>
+      <div class="p-6 print:p-4 grid grid-cols-1 md:grid-cols-2 gap-8 print:gap-4">
+        <div class="text-center">
+          <div class="border-t border-gray-400 mt-12 pt-2 print:mt-8">
+            <p class="text-sm font-semibold text-blue-900 print:text-xs">L'Agent</p>
+            <p class="text-xs text-gray-600 print:text-xs">Nom et signature</p>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="border-t border-gray-400 mt-12 pt-2 print:mt-8">
+            <p class="text-sm font-semibold text-blue-900 print:text-xs">Le Chef de Service</p>
+            <p class="text-xs text-gray-600 print:text-xs">Cachet et signature</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pied de page -->
+    <div class="text-center text-xs text-gray-500 mt-8 print:mt-4 border-t border-gray-300 pt-4">
+      <p>Document établi par la Direction des Ressources Humaines - Douanes Maliennes</p>
+      <p>Imprimé le {{today | date:'dd/MM/yyyy à HH:mm'}}</p>
+    </div>
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="p-6 print:hidden border-t border-gray-200 bg-gray-50">
+    <div class="flex justify-end space-x-3">
+      <button 
+        mat-stroked-button 
+        color="basic"
+        (click)="onClose()"
+        class="flex items-center space-x-2">
+        <mat-icon>close</mat-icon>
+        <span>Fermer</span>
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="printFiche()"
+        class="flex items-center space-x-2 bg-blue-800">
+        <mat-icon>print</mat-icon>
+        <span>Imprimer la fiche</span>
+      </button>
+    </div>
+  </div>
+</div>

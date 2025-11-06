@@ -1,9 +1,286 @@
-<div class="p-6">
+<div class="bg-white rounded-lg shadow-xl overflow-hidden">
+  <!-- Header -->
+  <mat-toolbar color="primary" class="relative">
+    <mat-toolbar-row class="px-6">
+      <div class="flex items-center">
+        <mat-icon class="mr-3">{{isEdit ? 'edit' : 'person_add'}}</mat-icon>
+        <span class="text-xl font-semibold">{{isEdit ? 'Modifier l\'employé' : 'Ajouter un employé'}}</span>
+      </div>
+      <span class="flex-1"></span>
+      <button class="text-white hover:bg-white/10 rounded-full p-1 transition-colors" mat-icon-button mat-dialog-close
+        aria-label="Fermer">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <!-- Content -->
+  <mat-card-content class="mat-typography p-0">
+    <form (ngSubmit)="onSubmit()" class="space-y-8 p-6 max-h-[70vh] overflow-y-auto">
+      <!-- Informations personnelles -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+          <h3 class="text-lg font-semibold text-gray-800">Informations personnelles</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nom</mat-label>
+            <input matInput [(ngModel)]="employe.nom" name="nom" required>
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error>Le nom est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Prénom</mat-label>
+            <input matInput [(ngModel)]="employe.prenom" name="prenom" required>
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error>Le prénom est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Date de Naissance</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="employe.dateNaissance" name="dateNaissance" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>La date de naissance est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Lieu de naissance</mat-label>
+            <input matInput [(ngModel)]="employe.lieuNaissance" name="lieuNaissance" required>
+            <mat-icon matSuffix>place</mat-icon>
+            <mat-error>Le lieu de naissance est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Genre</mat-label>
+            <mat-select [(value)]="employe.genre" required>
+              <mat-option value="M">
+                <mat-icon class="mr-2 text-blue-500">male</mat-icon>
+                Masculin
+              </mat-option>
+              <mat-option value="F">
+                <mat-icon class="mr-2 text-pink-500">female</mat-icon>
+                Féminin
+              </mat-option>
+            </mat-select>
+            <mat-error>Le genre est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Situation familiale</mat-label>
+            <mat-select [(value)]="employe.situationFamiliale" required>
+              @for (situation of situationsFamiliales; track situation) {
+              <mat-option [value]="situation">
+                <mat-icon class="mr-2 text-gray-600">family_restroom</mat-icon>
+                {{situation}}
+              </mat-option>
+              }
+            </mat-select>
+            <mat-error>La situation familiale est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nombre d'enfants</mat-label>
+            <input matInput type="number" [(ngModel)]="employe.nombreEnfants" name="nombreEnfants" min="0">
+            <mat-icon matSuffix>child_care</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Informations professionnelles -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-1 h-6 bg-green-500 rounded-full"></div>
+          <h3 class="text-lg font-semibold text-gray-800">Informations professionnelles</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Date d'embauche</mat-label>
+            <input matInput [matDatepicker]="pickerEmbauche" [(ngModel)]="employe.dateEmbauche" name="dateEmbauche"
+              required>
+            <mat-datepicker-toggle matSuffix [for]="pickerEmbauche"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEmbauche></mat-datepicker>
+            <mat-error>La date d'embauche est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Poste</mat-label>
+            <input matInput [(ngModel)]="employe.poste" name="poste" required>
+            <mat-icon matSuffix>work</mat-icon>
+            <mat-error>Le poste est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Grade</mat-label>
+            <mat-select [(value)]="employe.grade" required>
+              @for (grade of grades; track grade) {
+              <mat-option [value]="grade">
+                <mat-icon class="mr-2 text-amber-600">military_tech</mat-icon>
+                {{grade}}
+              </mat-option>
+              }
+            </mat-select>
+            <mat-error>Le grade est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Échelon</mat-label>
+            <input matInput [(ngModel)]="employe.echelon" name="echelon" required>
+            <mat-icon matSuffix>trending_up</mat-icon>
+            <mat-error>L'échelon est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Département</mat-label>
+            <mat-select [(value)]="employe.departement" required>
+              <mat-option>
+                <em>Tous les départements...</em>
+              </mat-option>
+              @for (dept of departements ; track dept) {
+              <mat-option [value]="dept">
+                <mat-icon class="mr-2 text-purple-500">business</mat-icon>
+                {{dept.nom}}
+              </mat-option>
+              }
+            </mat-select>
+            <mat-error>Le département est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Salaire</mat-label>
+            <input matInput type="number" [(ngModel)]="employe.salaire" name="salaire" required>
+            <span matPrefix class="text-gray-500 flex justify-end">FCFA&nbsp;</span>
+            <mat-icon matSuffix>attach_money</mat-icon>
+            <mat-error>Le salaire est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Statut</mat-label>
+            <mat-select [(value)]="employe.statut" required>
+              <mat-option value="ACTIF">
+                <mat-icon class="mr-2 text-green-500">check_circle</mat-icon>
+                Actif
+              </mat-option>
+              <mat-option value="INACTIF">
+                <mat-icon class="mr-2 text-red-500">cancel</mat-icon>
+                Inactif
+              </mat-option>
+              <mat-option value="RETRAITE">
+                <mat-icon class="mr-2 text-blue-500">elderly</mat-icon>
+                Retraité
+              </mat-option>
+              <mat-option value="CONGE">
+                <mat-icon class="mr-2 text-amber-500">beach_access</mat-icon>
+                Congé
+              </mat-option>
+              <mat-option value="DETACHE">
+                <div class="flex items-center">
+                  <mat-icon class="mr-2 text-purple-500">swap_horiz</mat-icon>
+                  Détaché
+                </div>
+              </mat-option>
+            </mat-select>
+            <mat-error>Le statut est obligatoire</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Coordonnées -->
+      <div class="space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-1 h-6 bg-purple-500 rounded-full"></div>
+          <h3 class="text-lg font-semibold text-gray-800">Coordonnées</h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Téléphone</mat-label>
+            <input matInput [(ngModel)]="employe.telephone" name="telephone" required>
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error>Le téléphone est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [(ngModel)]="employe.email" name="email" required>
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error>L'email est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full md:col-span-2">
+            <mat-label>Adresse</mat-label>
+            <textarea matInput [(ngModel)]="employe.adresse" name="adresse" rows="3" required></textarea>
+            <mat-icon matSuffix>location_on</mat-icon>
+            <mat-error>L'adresse est obligatoire</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Actions À L'INTÉRIEUR DU FORMULAIRE -->
+      <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+        <button mat-stroked-button color="warn" type="button" (click)="onCancel()"
+          class="flex items-center space-x-2 px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 transition-colors rounded-lg">
+          <mat-icon class="text-lg">close</mat-icon>
+          <span>Annuler</span>
+        </button>
+
+        <button mat-raised-button color="primary" type="submit"
+          class="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg shadow-md hover:shadow-lg">
+          <mat-icon class="text-lg">{{isEdit ? 'edit' : 'save'}}</mat-icon>
+          <span class="font-medium">{{isEdit ? 'Modifier' : 'Ajouter'}}</span>
+        </button>
+      </div>
+
+
+    </form>
+  </mat-card-content>
+
+  <!-- Actions -->
+  <!-- <mat-card-actions class="flex justify-end space-x-3 p-6 bg-gray-50 border-t border-gray-200">
+    <button 
+      mat-stroked-button 
+      color="warn" 
+      type="button"
+      (click)="onCancel()"
+      class="flex items-center space-x-2 px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 transition-colors rounded-lg">
+      <mat-icon class="text-lg">close</mat-icon>
+      <span>Annuler</span>
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors rounded-lg shadow-md hover:shadow-lg">
+      <mat-icon class="text-lg">{{isEdit ? 'edit' : 'save'}}</mat-icon>
+      <span class="font-medium">{{isEdit ? 'Modifier' : 'Ajouter'}}</span>
+    </button>
+  </mat-card-actions> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="p-6">
     <h2 class="text-xl font-bold text-gray-900 mb-6"></h2>
 
     <form (ngSubmit)="onSubmit" class="space-y-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- Informations personnelles -->
+            !-- Informations personnelles --
             <mat-form-field class="w-full">
                <mat-label>Nom</mat-label>
                <input matInput [(ngModel)]="employe.nom" name="nom" required>
@@ -49,7 +326,7 @@
             </mat-form-field>
         </div>
 
-        <!-- Informations professionnelles -->
+        !-- Informations professionnelles --
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <mat-form-field class="w-full">
         <mat-label>Date d'embauche</mat-label>
@@ -87,10 +364,7 @@
         </mat-select>
       </mat-form-field>
 
-      <!-- <mat-form-field class="w-full">
-        <mat-label>Service</mat-label>
-        <input matInput [(ngModel)]="employe.departement" name="service" required>
-      </mat-form-field> -->
+    
 
       <mat-form-field class="w-full">
         <mat-label>Salaire</mat-label>
@@ -110,7 +384,7 @@
       </mat-form-field>
     </div>
 
-    <!-- Coordonnées -->
+    !-- Coordonnées --
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <mat-form-field class="w-full">
         <mat-label>Téléphone</mat-label>
@@ -128,7 +402,7 @@
       </mat-form-field>
     </div>
 
-    <!-- Actions -->
+    !-- Actions --
     <div class="flex justify-end space-x-3 pt-4">
       <button 
         type="button"
@@ -136,11 +410,7 @@
         class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
         Annuler
       </button>
-      <!-- <button 
-        type="submit"
-        class="bg-blue-200 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors">
-        {{isEdit ? 'Modifier' : 'Ajouter un Employe'}}
-      </button> -->
+     
 
       <button
         mat-raised-button
@@ -151,8 +421,5 @@
       </button>
 
     </div>
-
-
     </form>
-
-</div>
+</div> -->

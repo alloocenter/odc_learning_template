@@ -46,3 +46,33 @@ export interface IndicateurPerformance {
   seuilMax: number;
   actif: boolean;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+export interface Performance {
+  id?: number;
+  employeId: number;
+  employe?: any;
+  contrat: string;
+  indicateur: string;
+  note: number;
+  dateEvaluation: Date;
+}
+
+// export interface Entretien {
+//   id?: number;
+//   employeId: number;
+//   dateEntretien: Date;
+//   objectifs: string;
+//   resultats: string;
+//   evaluateur: string;
+// }

@@ -21,7 +21,7 @@ const themes = {
     'default': {
         primary  : {
             ...colors.indigo,
-            DEFAULT: colors.indigo[600]
+            DEFAULT: colors.indigo[900]
         },
         accent   : {
             ...colors.slate,
@@ -43,7 +43,7 @@ const themes = {
     'teal'  : {
         primary: {
             ...colors.teal,
-            DEFAULT: colors.teal[600]
+            DEFAULT: colors.teal[900]
         }
     },
     'rose'  : {

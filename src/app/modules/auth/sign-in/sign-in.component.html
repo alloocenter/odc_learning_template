@@ -1,31 +1,41 @@
 <div class="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0">
-
-<!--BG IMAGE SECTION-->
-    <!-- <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden  dark:border-l">
-        <img [src]="toolService.makeDownloadImage('config', config.loginImageUrl)"
-        class="w-300 h-300">
-    </div> -->
-
-
-<!--    LOGIN FORM SECTION-->
-
-    <div class="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
+    <div class="md:flex md:items-center md:justify-end w-full sm:w-auto md:h-full md:w-1/2 py-8 px-4 sm:p-12 md:p-16 sm:rounded-2xl md:rounded-none sm:shadow md:shadow-none sm:bg-card">
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
-            <div class="w-80">
-                <img src="assets/images/ODLLOGO.png">
+            <div class="w-12">
+                <img src="assets/imgs/douane_logo 1.png">
             </div>
 
             <!-- Title -->
             <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Connexion</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>N'avez vous pas de compte?</div>
+                <div>Vous n'avez pas de compte?</div>
                 <a
-                        style="color: darkblue"
-                    class="ml-1 hover:underline"
-                    [routerLink]="['/sign-up']">S'inscrire
+                    class="ml-1 text-primary-500 hover:underline"
+                    [routerLink]="['/sign-up']">Inscrivez vous
                 </a>
             </div>
+
+
+            <!-- Alert -->
+            <fuse-alert
+                class="mt-8"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="'info'">
+                Vous consultez actuellement <strong>L'application de Gestion du Personnel de la Douane</strong>. Cliquer sur "Se Connecter" pour acceder à l'interface et à vos données 
+            </fuse-alert>
+
+            <!-- Alert -->
+            <fuse-alert
+                class="mt-8"
+                *ngIf="showAlert"
+                [appearance]="'outline'"
+                [showIcon]="false"
+                [type]="alert.type"
+                [@shake]="alert.type === 'error'">
+                {{alert.message}}
+            </fuse-alert>
 
             <!-- Sign in form -->
             <form
@@ -35,22 +45,22 @@
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Adresse Email</mat-label>
+                    <mat-label>Email address</mat-label>
                     <input
                         id="email"
                         matInput
                         [formControlName]="'email'">
                     <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Email est obligatoire
+                        Email address is required
                     </mat-error>
                     <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Entrez un email valide
+                        Please enter a valid email address
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Mot de passe</mat-label>
+                    <mat-label>Password</mat-label>
                     <input
                         id="password"
                         matInput
@@ -72,7 +82,7 @@
                             [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                     </button>
                     <mat-error>
-                        Mot de passe est obligatoire
+                        Password is required
                     </mat-error>
                 </mat-form-field>
 
@@ -85,8 +95,7 @@
                         Se souvenir de moi
                     </mat-checkbox>
                     <a
-                            style="color: darkblue"
-                        class="text-md font-medium hover:underline"
+                        class="text-md font-medium text-primary-500 hover:underline"
                         [routerLink]="['/forgot-password']">Mot de passe oublié?
                     </a>
                 </div>
@@ -95,11 +104,11 @@
                 <button
                     class="fuse-mat-button-large w-full mt-6"
                     mat-flat-button
-                    style="color: white; background-color: darkblue"
+                    [color]="'primary'"
                     [disabled]="signInForm.disabled"
                     (click)="signIn()">
                     <span *ngIf="!signInForm.disabled">
-                       Se connecter
+                       Se Connecter
                     </span>
                     <mat-progress-spinner
                         *ngIf="signInForm.disabled"
@@ -120,25 +129,79 @@
                         class="flex-auto"
                         type="button"
                         mat-stroked-button>
-                        <img src="assets/images/gmail.png" style="width: 30px; height: 30px;">
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:facebook'"></mat-icon>
                     </button>
                     <button
-                            class="flex-auto"
-                            type="button"
-                            mat-stroked-button>
-                        <img src="assets/images/github.png" style="width: 30px; height: 30px;">
+                        class="flex-auto"
+                        type="button"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:twitter'"></mat-icon>
                     </button>
-
                     <button
-                            class="flex-auto"
-                            type="button"
-                            mat-stroked-button>
-                        <img src="assets/images/facebook.png" style="width: 30px; height: 30px;">
+                        class="flex-auto"
+                        type="button"
+                        mat-stroked-button>
+                        <mat-icon
+                            class="icon-size-5"
+                            [svgIcon]="'feather:github'"></mat-icon>
                     </button>
                 </div>
             </form>
         </div>
     </div>
+    <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-8 lg:px-14 overflow-hidden bg-gray-800 dark:border-l">
+        <!-- Background - @formatter:off -->
+        <!-- Rings -->
+        <svg class="absolute inset-0 pointer-events-none"
+             viewBox="0 0 960 540" width="100%" height="100%" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+            <g class="text-gray-700 opacity-25" fill="none" stroke="currentColor" stroke-width="100">
+                <circle r="234" cx="196" cy="23"></circle>
+                <circle r="234" cx="790" cy="491"></circle>
+            </g>
+        </svg>
+        <!-- Dots -->
+        <svg class="absolute -top-16 -right-16 text-gray-700"
+             viewBox="0 0 220 192" width="220" height="192" fill="none">
+            <defs>
+                <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+                </pattern>
+            </defs>
+            <rect width="220" height="192" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+        </svg>
 
+        <!-- @formatter:on -->
+        <!-- Content -->
+        <div class="z-10 relative w-full max-w-2xl">
+            <!-- En-tête avec les deux parties -->
+            <div class="flex justify-between items-start mb-8">
+                <!-- Direction Générale des Douanes à gauche -->
+                 <div class="text-2xl font-bold text-gray-100">
+                    Direction Générale de la Douane
+                 </div>
+                 <!-- République du Mali et devise à droite -->
+                  <div class="text-right">
+                    <div class="text-xl font-bold text-gray-100">
+                        République du Mali
+                    </div>
+                    <div class="mt-2 text-sm text-gray-400">
+                        Un Peuple - Un But - Une Foi
+                    </div>
+                  </div>
+            </div>
 
+           <!-- Photo de la douane en bas au milieu -->
+            <div class="flex justify-center mt-12">
+                <img 
+                class="w-full h-96 object-cover rounded-lg shadow-lg" 
+                src="assets/imgs/Photo direction 1.jpeg" 
+                alt="Direction Générale des Douanes du Mali">
+
+            </div> 
+        </div> 
+    </div>
 </div>

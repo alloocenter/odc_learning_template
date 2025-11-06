@@ -1,5 +1,5 @@
 export interface Employe {
-   id: number;
+  id: number;
   matricule: string;
   nom: string;
   prenom: string;
@@ -12,7 +12,8 @@ export interface Employe {
   poste: string;
   grade: string;
   echelon: string;
-  departement: string;
+  //departementId: number;
+  departement?: string;
   salaire: number;
   telephone: string;
   email: string;
@@ -25,7 +26,7 @@ export interface Departement {
   id: number;
   nom: string;
   description: string;
-  chefDepartementId?: number;
+  // chefDepartementId?: number;
   dateCreation: string;
   actif: boolean;
 }

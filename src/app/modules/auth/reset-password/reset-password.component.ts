@@ -6,11 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { FuseValidators } from '@fuse/validators';
-import { AuthService } from 'app/modules/admin/services/auth/auth.service';
+import { AuthService } from 'app/core/auth/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -31,7 +31,6 @@ export class AuthResetPasswordComponent implements OnInit
     };
     resetPasswordForm: UntypedFormGroup;
     showAlert: boolean = false;
-    resetToken: string = '';
 
     /**
      * Constructor
@@ -39,7 +38,6 @@ export class AuthResetPasswordComponent implements OnInit
     constructor(
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
-        private _activatedRoute: ActivatedRoute
     )
     {
     }
@@ -53,12 +51,6 @@ export class AuthResetPasswordComponent implements OnInit
      */
     ngOnInit(): void
     {
-
-         // Récupérer le token depuis l'URL
-        this._activatedRoute.queryParams.subscribe(params => {
-            this.resetToken = params['token'] || 'default-token';
-        });
-
         // Create the form
         this.resetPasswordForm = this._formBuilder.group({
                 password       : ['', Validators.required],
@@ -90,7 +82,6 @@ export class AuthResetPasswordComponent implements OnInit
 
         // Hide the alert
         this.showAlert = false;
-        
 
         // Send the request to the server
         this._authService.resetPassword(this.resetPasswordForm.get('password').value)

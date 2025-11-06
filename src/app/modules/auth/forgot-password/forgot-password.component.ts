@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
-import { AuthService } from 'app/modules/admin/services/auth/auth.service';
+import { AuthService } from 'app/core/auth/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -21,52 +21,93 @@ import { finalize } from 'rxjs';
 })
 export class AuthForgotPasswordComponent implements OnInit
 {
-    forgotPasswordForm: FormGroup;
-  showAlert = false;
-  alert: { type: FuseAlertType; message: string } = {
-    type: 'success',
-    message: ''
-  };
+    @ViewChild('forgotPasswordNgForm') forgotPasswordNgForm: NgForm;
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private _authService: AuthService
-  ) {}
+    alert: { type: FuseAlertType; message: string } = {
+        type   : 'success',
+        message: '',
+    };
+    forgotPasswordForm: UntypedFormGroup;
+    showAlert: boolean = false;
 
-  ngOnInit(): void {
-    this.forgotPasswordForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
-  }
-
-  sendResetLink(): void {
-    if (this.forgotPasswordForm.invalid) {
-      return;
+    /**
+     * Constructor
+     */
+    constructor(
+        private _authService: AuthService,
+        private _formBuilder: UntypedFormBuilder,
+    )
+    {
     }
 
-    this.forgotPasswordForm.disable();
-    this.showAlert = false;
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-    const email = this.forgotPasswordForm.get('email').value;
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Create the form
+        this.forgotPasswordForm = this._formBuilder.group({
+            email: ['', [Validators.required, Validators.email]],
+        });
+    }
 
-    this._authService.forgotPassword(email).subscribe({
-      next: (response) => {
-        this.alert = {
-          type: 'success',
-          message: 'Un email de réinitialisation a été envoyé à votre adresse.'
-        };
-        this.showAlert = true;
-      },
-      error: (error) => {
-        this.forgotPasswordForm.enable();
-        this.alert = {
-          type: 'error',
-          message: error.message || "Une erreur est survenue lors de l'envoi de l'email"
-        };
-        this.showAlert = true;
-      }
-    });
-  }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
+    /**
+     * Send the reset link
+     */
+    sendResetLink(): void
+    {
+        // Return if the form is invalid
+        if ( this.forgotPasswordForm.invalid )
+        {
+            return;
+        }
 
+        // Disable the form
+        this.forgotPasswordForm.disable();
+
+        // Hide the alert
+        this.showAlert = false;
+
+        // Forgot password
+        this._authService.forgotPassword(this.forgotPasswordForm.get('email').value)
+            .pipe(
+                finalize(() =>
+                {
+                    // Re-enable the form
+                    this.forgotPasswordForm.enable();
+
+                    // Reset the form
+                    this.forgotPasswordNgForm.resetForm();
+
+                    // Show the alert
+                    this.showAlert = true;
+                }),
+            )
+            .subscribe(
+                (response) =>
+                {
+                    // Set the alert
+                    this.alert = {
+                        type   : 'success',
+                        message: 'Password reset sent! You\'ll receive an email if you are registered on our system.',
+                    };
+                },
+                (response) =>
+                {
+                    // Set the alert
+                    this.alert = {
+                        type   : 'error',
+                        message: 'Email does not found! Are you sure you are already a member?',
+                    };
+                },
+            );
+    }
 }
